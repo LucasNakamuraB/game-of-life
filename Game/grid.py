@@ -1,3 +1,5 @@
+import random
+
 class Cell:
     pos: tuple
     alive: bool
@@ -13,10 +15,13 @@ class Cell:
         self.alive = not self.alive
     
     def kill(self):
-        self. alive = False
+        self.alive = False
     
     def revive(self):
         self.alive = True
+    
+    def random(self):
+        self.alive = bool(random.getrandbits(1))
 
 class CellGrid:
     grid_matrix: list[list[Cell]]
@@ -55,7 +60,10 @@ class CellGrid:
             for y in range(self.size):
                 self.get_cell((x, y)).kill()
                 
-        
+    def generate_soup(self):
+        for x in range(self.size):
+            for y in range(self.size):
+                self.get_cell((x, y)).random()
     
     def get_cell(self, pos: tuple) -> Cell:
         return self.grid_matrix[pos[0]][pos[1]]

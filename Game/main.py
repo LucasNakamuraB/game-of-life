@@ -36,7 +36,6 @@ def main():
                     grid.update_all()
                 elif event.key == pygame.K_SPACE:
                     paused = not paused
-                    print(paused)
                 elif event.key == pygame.K_x:
                     grid.genocide()
                 elif event.key == pygame.K_DOWN and delay > 1:
@@ -45,6 +44,8 @@ def main():
                 elif event.key == pygame.K_UP:
                     delay += 1
                     draw_tickrate(delay)
+                elif event.key == pygame.K_r:
+                    grid.generate_soup()
         if pygame.mouse.get_pressed()[0]:
             grid.revive_cell(get_cell_from_position(pygame.mouse.get_pos()))
         elif pygame.mouse.get_pressed()[2]:
@@ -113,8 +114,9 @@ def draw_title():
     screen.blit(title, (margin,12))
 
 def draw_instructions():
-    inst = font.render("kill/revive cells:[RMB]/[LMB]\npause/unpause:[SPACE]\nchange ticks:[UP]/[DOWN]\nforce update:[Q]\nclear:[X]", False, "#494949")
-    screen.blit(inst,(margin + left_side, margin * 8))
+    inst = font.render("kill/revive cells:[RMB]/[LMB]\npause/unpause:[SPACE]\
+        \nchange ticks:[UP]/[DOWN]\nforce update:[Q]\nmake soup:[R]\nclear:[X]", False, "#494949")
+    screen.blit(inst,(margin + left_side, margin * 7))
     
     
 main()
