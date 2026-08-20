@@ -32,7 +32,6 @@ class CellGrid:
                     cell = self.get_cell((x, y))
                     if n_neighbors < 2 and cell.alive:
                         cell.next_state = False
-                        print("morreu")
                     elif cell.alive and (n_neighbors == 2 or n_neighbors == 3):
                         cell.next_state = True
                     elif not cell.alive and n_neighbors == 3:
@@ -51,7 +50,8 @@ class CellGrid:
     def get_cell(self, pos: tuple) -> Cell:
         return self.grid_matrix[pos[0]][pos[1]]
     
-    def is_cell_alive(self, pos: tuple):
+    def is_cell_alive(self, posit: tuple):
+        pos = (posit[0]% self.size, posit[1]%self.size)
         if (pos[0] < 0) or (pos[1] < 0) or (pos[0] >= self.size) or (pos[1] >= self.size):
             return False
         else:
