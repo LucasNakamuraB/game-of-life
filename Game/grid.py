@@ -11,6 +11,12 @@ class Cell:
     
     def flip(self):
         self.alive = not self.alive
+    
+    def kill(self):
+        self. alive = False
+    
+    def revive(self):
+        self.alive = True
 
 class CellGrid:
     grid_matrix: list[list[Cell]]
@@ -61,6 +67,15 @@ class CellGrid:
         if (pos[0] < 0) or (pos[1] < 0) or (pos[0] >= self.size) or (pos[1] >= self.size):
             return
         self.grid_matrix[pos[0]][pos[1]].flip()
+        
+    def kill_cell(self, pos:tuple):
+        if (pos[0] < 0) or (pos[1] < 0) or (pos[0] >= self.size) or (pos[1] >= self.size):
+            return
+        self.grid_matrix[pos[0]][pos[1]].kill()
+    def revive_cell(self, pos:tuple):
+        if (pos[0] < 0) or (pos[1] < 0) or (pos[0] >= self.size) or (pos[1] >= self.size):
+            return
+        self.grid_matrix[pos[0]][pos[1]].revive()
     
     def get_cell_neighbor_count(self, pos: tuple) -> int:
         neighbors = 0

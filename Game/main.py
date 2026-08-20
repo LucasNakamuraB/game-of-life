@@ -23,14 +23,14 @@ def main():
     ticks = 0
     draw_title()
     draw_instructions()
+    killmode = False
+    mb_down = False
     pygame.draw.line(screen, "white", (left_side, margin/2), (left_side, left_side - margin/2))
     draw_tickrate(delay)
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                grid.flip_cell(get_cell_from_position(pygame.mouse.get_pos()))
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     grid.update_all()
@@ -43,6 +43,10 @@ def main():
                 elif event.key == pygame.K_UP:
                     delay += 1
                     draw_tickrate(delay)
+        if pygame.mouse.get_pressed()[0]:
+            grid.revive_cell(get_cell_from_position(pygame.mouse.get_pos()))
+        elif pygame.mouse.get_pressed()[2]:
+            grid.kill_cell(get_cell_from_position(pygame.mouse.get_pos()))
         draw_all_cells()
         draw_grid()
         draw_paused(paused)
