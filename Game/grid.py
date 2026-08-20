@@ -49,9 +49,13 @@ class CellGrid:
         for x in range(self.size):
             for y in range(self.size):
                 self.get_cell((x, y)).update()
-                        
-                        
-                        
+    
+    def genocide(self):
+        for x in range(self.size):
+            for y in range(self.size):
+                self.get_cell((x, y)).kill()
+                
+        
     
     def get_cell(self, pos: tuple) -> Cell:
         return self.grid_matrix[pos[0]][pos[1]]

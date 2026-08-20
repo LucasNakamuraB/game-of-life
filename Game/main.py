@@ -37,6 +37,8 @@ def main():
                 elif event.key == pygame.K_SPACE:
                     paused = not paused
                     print(paused)
+                elif event.key == pygame.K_x:
+                    grid.genocide()
                 elif event.key == pygame.K_DOWN and delay > 1:
                     delay -= 1
                     draw_tickrate(delay)
@@ -111,8 +113,8 @@ def draw_title():
     screen.blit(title, (margin,12))
 
 def draw_instructions():
-    inst = font.render("kill/revive cells: [RMB]/[LMB]\npause/unpause: [SPACE]\nchange ticks:[UP]/[DOWN]\nforce update[Q]", False, "#494949")
-    screen.blit(inst,(margin + left_side, margin * 9))
+    inst = font.render("kill/revive cells: [RMB]/[LMB]\npause/unpause: [SPACE]\nchange ticks:[UP]/[DOWN]\nforce update:[Q]\nclear:[X]", False, "#494949")
+    screen.blit(inst,(margin + left_side, margin * 8))
     
     
 main()
