@@ -111,7 +111,7 @@ def draw_title():
     screen.blit(title, (margin,12))
 
 def draw_instructions():
-    inst = font.render("pause/unpause: [SPACE]\nchange ticks:[UP]/[DOWN]\nforce update[Q]", False, "#494949")
+    inst = font.render("kill/revive cells: [RMB]/[LMB]\npause/unpause: [SPACE]\nchange ticks:[UP]/[DOWN]\nforce update[Q]", False, "#494949")
     screen.blit(inst,(margin + left_side, margin * 9))
     
     
