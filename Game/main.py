@@ -9,8 +9,8 @@ font = pygame.font.SysFont("monospace", 25)
 
 margin: int = 50
 
-grid_size = 50
-cell_size = 10
+grid_size = 100
+cell_size = 5
 
 left_side = (margin * 2) + (grid_size * cell_size)
 grid: CellGrid = CellGrid(grid_size)
@@ -23,11 +23,12 @@ def main():
     ticks = 0
     draw_title()
     draw_instructions()
-    killmode = False
-    mb_down = False
+    draw_paused(paused)
+    draw_grid()
     pygame.draw.line(screen, "white", (left_side, margin/2), (left_side, left_side - margin/2))
     draw_tickrate(delay)
     while run:
+        print(clock.get_fps())
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -36,6 +37,7 @@ def main():
                     grid.update_all()
                 elif event.key == pygame.K_SPACE:
                     paused = not paused
+                    draw_paused(paused)
                 elif event.key == pygame.K_x:
                     grid.genocide()
                 elif event.key == pygame.K_DOWN and delay > 1:
@@ -46,44 +48,28 @@ def main():
                     draw_tickrate(delay)
                 elif event.key == pygame.K_r:
                     grid.generate_soup()
+                draw_all_cells()
         if pygame.mouse.get_pressed()[0]:
             grid.revive_cell(get_cell_from_position(pygame.mouse.get_pos()))
+            draw_all_cells()
         elif pygame.mouse.get_pressed()[2]:
             grid.kill_cell(get_cell_from_position(pygame.mouse.get_pos()))
-        draw_all_cells()
-        draw_grid()
-        draw_paused(paused)
-        
-        #print(get_cell_from_position(pygame.mouse.get_pos()))
-        #print(grid.is_cell_alive(get_cell_from_position(pygame.mouse.get_pos())))
-        #print(grid.get_cell_neighbor_count(get_cell_from_position(pygame.mouse.get_pos())))
-        clock.tick(60)
-        #if paused:
-        #    pygame.draw.rect(screen, "red", (0,0,50, 50))
-        #else:
-        #    pygame.draw.rect(screen, "green", (0,0,50, 50))
-        ticks += 1
+            draw_all_cells()
         if ticks >= delay and not paused:
             ticks = 0
             grid.update_all()
             draw_all_cells()
-            draw_grid()
-            pygame.display.flip()
+        clock.tick(60)
+        ticks += 1
         pygame.display.flip()
 
-def update_grid():
-    pass
-
 def draw_all_cells():
-    for x in range(grid_size):
-        for y in range(grid_size):
-            if grid.is_cell_alive((x, y)):
-                draw_cell((x,y), "white")
-            else:
-                draw_cell((x, y), "black")
+    pygame.draw.rect(screen, "black",  (margin,margin,(grid_size * cell_size), (grid_size * cell_size)))
+    for cell in grid.live_cells:
+        draw_cell(cell.pos, "white")
+    draw_grid()
 
 def draw_grid():
-
     for offset in range(0, ((grid_size + 1) * cell_size), cell_size):
         pygame.draw.line(screen, "#1f1f1f", (margin + offset, margin), (margin + offset, (grid_size * cell_size) + margin)) # vertical
         pygame.draw.line(screen, "#1f1f1f", (margin, margin + offset), (margin + (grid_size * cell_size), margin + offset)) #horizontal
